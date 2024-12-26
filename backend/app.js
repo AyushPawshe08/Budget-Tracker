@@ -12,7 +12,7 @@ const flash =require("connect-flash")
 // Middleware 
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
+app.use(cors({ origin: 'http://localhost:5174', credentials: true }));
 
 // MongoDB connection
 require('./config/db');
