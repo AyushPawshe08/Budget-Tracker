@@ -1,11 +1,11 @@
 import React from 'react';
 import { Plus } from 'lucide-react';
-import Dashboard from "./Dashboard";
+import Navbar from './Navbar'
 
 const Income = () => {
   return (
     <div className='flex flex-col md:flex-row'>
-      <Dashboard />
+      <Navbar />
 
       <div className='p-10 w-full md:w-2/3 lg:w-1/2'>
         <h1 className='text-5xl text-green-500 font-bold mb-5'>Income</h1>
