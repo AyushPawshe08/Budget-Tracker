@@ -1,9 +1,15 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate hook
 import { ContainerScroll } from '../../components/ui/container-scroll-animation';
 import banner from '../../public/banner.jpg';
-import { Link } from 'react-router-dom';
 
 const Home = () => {
+  const navigate = useNavigate(); // Initialize navigate function
+
+  const handleGetStarted = () => {
+    navigate('/login'); // Navigate to login page
+  };
+
   return (
     <div className="min-h-screen bg-gray-100">
       {/* Navigation Bar */}
@@ -11,10 +17,12 @@ const Home = () => {
         <h1 className="text-3xl font-bold">
           <span className="text-blue-500">Budget</span>-Tracker
         </h1>
-        <Link to="/login">
-        <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+        <button
+          onClick={handleGetStarted} // Click triggers navigation to login
+          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+        >
           Get Started
-        </button></Link>
+        </button>
       </nav>
 
       {/* Main Content */}
@@ -46,4 +54,3 @@ const Home = () => {
 };
 
 export default Home;
-
