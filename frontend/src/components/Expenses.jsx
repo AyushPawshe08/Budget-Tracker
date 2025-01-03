@@ -19,7 +19,9 @@ const Expense = () => {
   useEffect(() => {
     const fetchExpenseList = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/expenses");
+        const response = await axios.get("http://localhost:5000/api/expenses" , {
+          withCredentials: true,
+        });
         const expenseData = response.data;
         setExpenseList(expenseData);
         calculateTotalExpense(expenseData);
@@ -73,12 +75,14 @@ const Expense = () => {
     try {
       const response = await axios.post(
         "http://localhost:5000/api/expenses",
-        formData
+        formData , {
+          withCredentials: true,
+        }
       );
       setMessage(response.data.message);
       setExpenseList((prevList) => [response.data.newExpense, ...prevList]);
       calculateTotalExpense([response.data.newExpense, ...expenseList]);
-      setFormData({ expense: "", amount: "", category: "" });
+      setFormData({ expense: "", amount: "", date: "" });
     } catch (error) {
       setMessage("Error saving expense.");
       console.error(error);

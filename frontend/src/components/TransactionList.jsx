@@ -11,8 +11,12 @@ function TransactionList() {
   useEffect(() => {
     async function fetchTransactions() {
       try {
-        const incomeResponse = await axios.get('http://localhost:5000/api/income');
-        const expenseResponse = await axios.get('http://localhost:5000/api/expenses');
+        const incomeResponse = await axios.get('http://localhost:5000/api/income', {
+          withCredentials: true, // Ensures cookies (JWT) are sent with the request
+        });
+        const expenseResponse = await axios.get('http://localhost:5000/api/expenses', {
+          withCredentials: true,
+        });
 
         const incomeData = incomeResponse.data.map((item) => ({
           ...item,
@@ -162,4 +166,3 @@ function TransactionList() {
 }
 
 export default TransactionList;
-

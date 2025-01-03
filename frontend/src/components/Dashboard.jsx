@@ -12,8 +12,12 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchIncomeAndExpense = async () => {
       try {
-        const incomeResponse = await axios.get('http://localhost:5000/api/income');
-        const expenseResponse = await axios.get('http://localhost:5000/api/expenses');
+        const incomeResponse = await axios.get('http://localhost:5000/api/income', {
+          withCredentials: true, // Ensures cookies (JWT) are sent with the request
+        });
+        const expenseResponse = await axios.get('http://localhost:5000/api/expenses', {
+          withCredentials: true,
+        });
         setIncomeList(incomeResponse.data); // Set income data
         setExpenseList(expenseResponse.data); // Set expense data
       } catch (error) {
@@ -105,4 +109,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-

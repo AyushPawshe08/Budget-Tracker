@@ -21,7 +21,10 @@ function CategoryPieChart() {
     async function fetchTransactions() {
       try {
         // Replace with your actual API endpoints
-        const expenseResponse = await axios.get('http://localhost:5000/api/expenses');
+
+        const expenseResponse = await axios.get('http://localhost:5000/api/expenses', {
+          withCredentials: true,
+        });
 
         // Add 'expense' type to each transaction to make it easier to filter
         const expenseData = expenseResponse.data.map(item => ({ ...item, type: 'expense' }));
@@ -77,4 +80,3 @@ function CategoryPieChart() {
 }
 
 export default CategoryPieChart;
-

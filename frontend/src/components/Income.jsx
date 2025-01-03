@@ -19,7 +19,9 @@ const Income = () => {
   useEffect(() => {
     const fetchIncomeList = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/income');
+        const response = await axios.get('http://localhost:5000/api/income', {
+          withCredentials: true, // Ensure cookies are sent
+        });
         const incomeData = response.data;
         setIncomeList(incomeData); // Ensure incomeList is an array
         calculateTotalIncome(incomeData);
@@ -48,7 +50,9 @@ const Income = () => {
         console.error('Income not found for deletion.');
         return;
       }
-      await axios.delete(`http://localhost:5000/api/income/${id}`);
+      await axios.delete(`http://localhost:5000/api/income/${id}`, {
+        withCredentials: true, // Ensure cookies are sent
+      });
       const updatedList = incomeList.filter((income) => income._id !== id);
       setIncomeList(updatedList);
       calculateTotalIncome(updatedList);
@@ -71,7 +75,9 @@ const Income = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:5000/api/income', formData);
+      const response = await axios.post('http://localhost:5000/api/income', formData, {
+        withCredentials: true, // Ensure cookies are sent
+      });
       setMessage(response.data.message);
       setIncomeList((prevList) => [response.data.newIncome, ...prevList]);
       calculateTotalIncome([response.data.newIncome, ...incomeList]);
@@ -118,17 +124,17 @@ const Income = () => {
                           {new Date(incomeInfo.date).toLocaleDateString()}
                         </td>
                         <td>
-                        <button
+                          <button
                             onClick={() => handleDelete(incomeInfo._id)}
                             className="text-red-500 mx-3 hover:underline"
                           >
-                           <Pencil />
+                            <Pencil />
                           </button>
                           <button
                             onClick={() => handleDelete(incomeInfo._id)}
-                            className="text-red-500  hover:underline"
+                            className="text-red-500 hover:underline"
                           >
-                           <Trash />
+                            <Trash />
                           </button>
                         </td>
                       </tr>
