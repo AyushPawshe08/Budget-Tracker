@@ -6,6 +6,7 @@ import Signup from './components/Signup'
 import Dashboard from './components/Dashboard'
 import Income from './components/Income'
 import Expenses from './components/Expenses'
+import Profile from './components/Profile'
 
 const App = () => {
   const [data ,setData] = useState(null);
@@ -14,12 +15,14 @@ const App = () => {
     <div>
       
       <Routes>
+        
         <Route path="/" element={<Home/>}/>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path='/dashboard' element={<Dashboard/>} />
         <Route path= '/income' element={<Income/>}/>
         <Route path= '/expenses' element={<Expenses/>}/>
+        <Route path= '/profile' element={<Profile/>}/>
       </Routes>
     </div>
   )

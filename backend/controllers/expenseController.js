@@ -3,18 +3,19 @@ const Expense = require('../models/expenseModel'); // Import the expense model
 // Create Expense Controller
 const createExpense = async (req, res) => {
   try {
-    const { name, amount, category } = req.body;
+    const { expense, amount, date } = req.body;
 
     // Validate required fields
-    if (!name || !amount || !category) {
+    if (!expense || !amount || !date) {
       return res.status(400).json({ message: 'All fields are required.' });
     }
 
     // Create a new expense
     const newExpense = new Expense({
-      name,
+      expense,
       amount,
-      category,
+      date,
+      user: req.user._id,
     });
 
     // Save to the database
@@ -23,7 +24,7 @@ const createExpense = async (req, res) => {
     // Send success response
     res.status(201).json({
       message: 'Expense created successfully.',
-      expense: savedExpense,
+      data: savedExpense,
     });
   } catch (error) {
     // Handle errors
@@ -34,6 +35,34 @@ const createExpense = async (req, res) => {
   }
 };
 
+const getAllExpense = async (req, res) => {
+  try {
+    const expenseList = await Expense.find({ user: req.user._id }); // Fetch all income records from the database
+    res.status(200).json(expenseList); // Respond with the fetched data
+  } catch (error) {
+    console.error('Error fetching income:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
+const deleteExpense = async (req, res) => {
+  try {
+    const { id } = req.params;
+    console.log(`Deleting expense with ID: ${id}`); // Debug log
+    const deletedExpense = await Expense.findByIdAndDelete({
+      _id: id,
+      user: req.user._id,
+    });
+    if (!deletedExpense) {
+      return res.status(404).json({ message: 'Expense not found' });
+    }
+    res.status(200).json({ message: 'Expense deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting Expense:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
 module.exports = {
-  createExpense,
+  createExpense, getAllExpense, deleteExpense
 };

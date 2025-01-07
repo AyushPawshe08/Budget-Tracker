@@ -1,11 +1,11 @@
 const userModel = require("../models/userModel");
 const bcrypt = require('bcrypt');
-const jwt = require("jsonwebtoken")
+const jwt = require("jsonwebtoken");
 const { generateToken } = require("../utils/generateToken");
 
 module.exports.registerUser = async function (req, res) {
     try {
-        let { email, password, username } = req.body;
+        let { email, password, username, pic } = req.body;
 
         let user = await userModel.findOne({ email: email });
         if (user) {
@@ -16,13 +16,18 @@ module.exports.registerUser = async function (req, res) {
             bcrypt.hash(password, salt, async function (err, hash) {
                 if (err) return res.send(err.message);
                 else {
-                    let user = await userModel.create({
+                    // Save user with profile picture URL from Cloudinary
+                    let newUser = await userModel.create({
                         email,
                         password: hash,
                         username,
+                        pic, // Store the Cloudinary image URL in the 'pic' field
                     });
-                    let token = generateToken(user);
+
+                    // Generate token after successful registration
+                    let token = generateToken(newUser);
                     res.cookie("token", token);
+
                     res.send("User created");
                 }
             });
@@ -61,7 +66,6 @@ module.exports.loginUser = async function (req, res) {
         return res.status(500).json({ message: "An unexpected error occurred." });
     }
 };
-
 
 module.exports.logout = function (req, res) {
     res.cookie("token", "");

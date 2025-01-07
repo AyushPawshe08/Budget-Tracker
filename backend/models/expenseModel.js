@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 const expenseSchema = mongoose.Schema({
-    name : {
+    expense : {
         type: String,
         required : true
     },
@@ -10,10 +10,15 @@ const expenseSchema = mongoose.Schema({
         required : true
     },
 
-    category : {
-        type : String,
-        required : true
-    }
+    date: { // Added date field
+        type: Date,
+        required: true
+    },
+     user: { // Reference to the user who created this income
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+            required: true
+        }
 })
 
 module.exports = mongoose.model('expense', expenseSchema);
